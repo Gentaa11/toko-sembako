@@ -1,0 +1,335 @@
+:root {
+    --primary-color: #0d6efd;
+    --primary-dark: #0a58ca;
+    --primary-light: #6ea8fe;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    min-height: 400px;
+    padding: 80px 0;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(13, 110, 253, 0.2) !important;
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.feature-icon:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.info-box {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    transition: transform 0.3s ease;
+}
+
+.info-box:hover {
+    transform: scale(1.02);
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+}
+
+.nav-link {
+    transition: all 0.3s ease;
+}
+
+
+.btn-light:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* Login Page - Old */
+.login-page {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    min-height: 100vh;
+}
+
+/* ============================================================
+   AUTH PAGES (Login & Register) - New Compact Design
+   ============================================================ */
+.auth-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 380px;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-header h4 {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 1.25rem;
+}
+
+.auth-header p {
+    color: #6c757d;
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+.auth-logo {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.auth-logo-success {
+    background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+}
+
+.auth-card .input-group-text {
+    border-radius: 8px 0 0 8px;
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+.auth-card .form-control {
+    border-radius: 0 8px 8px 0;
+    padding: 10px 12px;
+    border-left: none;
+    background-color: #fff;
+}
+
+.auth-card .form-control:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
+    background-color: #fff;
+}
+
+.auth-card .input-group:focus-within {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    border-radius: 8px;
+}
+
+.auth-card .input-group:focus-within .input-group-text {
+    border-color: var(--primary-color);
+    background-color: #e7f1ff;
+}
+
+.auth-card .input-group:focus-within .form-control {
+    border-color: var(--primary-color);
+}
+
+.auth-card .btn {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.auth-footer {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.auth-footer p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.auth-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.auth-copyright {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.75rem;
+    margin-top: 20px;
+}
+
+/* Dashboard Stat Cards */
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stat-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Avatar Circle for User List */
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Table Styling */
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb {
+    font-size: 0.875rem;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* Card Header Styling */
+.card-header {
+    border-bottom: none;
+}
+
+/* Alert Styling */
+.alert {
+    border: none;
+    border-radius: 10px;
+}
+
+/* Form Controls */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Button Transitions */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Modal Styling */
+.modal-content {
+    border: none;
+    border-radius: 15px;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 350px;
+        padding: 60px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .avatar-circle {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}

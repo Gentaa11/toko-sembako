@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Kategori - Toko Sembako Murah Jaya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('dashboard') }}">
+                <i class="bi bi-shop me-2"></i>Toko Sembako Murah Jaya
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('read_produk') }}">
+                            <i class="bi bi-box-seam me-1"></i>Produk
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('read_kategori') }}">
+                            <i class="bi bi-tags me-1"></i>Kategori
+                        </a>
+                    </li>
+                    {% if current_user.is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('read_user') }}">
+                            <i class="bi bi-people me-1"></i>User
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>{{ current_user.username }}
+                            <span class="badge bg-{% if current_user.is_admin %}warning text-dark{% else %}light text-dark{% endif %} ms-1">
+                                {{ current_user.role|capitalize }}
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><span class="dropdown-item-text text-muted small">Login sebagai {{ current_user.role }}</span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-4">
+        <div class="container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %}-fill me-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 class="mb-1"><i class="bi bi-tags me-2 text-primary"></i>Data Kategori</h4>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Kategori</li>
+                        </ol>
+                    </nav>
+                </div>
+                {% if current_user.is_admin %}
+                <a href="{{ url_for('create_kategori') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Tambah Kategori
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Data Table -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    {% if kategori_list %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="5%">Id</th>
+                                    <th width="12%">Kode</th>
+                                    <th width="18%">Nama Kategori</th>
+                                    <th width="35%">Deskripsi</th>
+                                    <th width="12%">Lokasi Rak</th>
+                                    {% if current_user.is_admin %}
+                                    <th width="18%" class="text-center">Aksi</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for kategori in kategori_list %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td><span class="badge bg-secondary">{{ kategori.kode_kategori }}</span></td>
+                                    <td class="fw-semibold">{{ kategori.nama_kategori }}</td>
+                                    <td><small class="text-muted">{{ kategori.deskripsi }}</small></td>
+                                    <td><span class="badge bg-info text-dark">{{ kategori.lokasi_rak }}</span></td>
+                                    {% if current_user.is_admin %}
+                                    <td class="text-center">
+                                        <a href="{{ url_for('update_kategori', id=kategori.id_kategori) }}" 
+                                           class="btn btn-sm btn-warning" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-danger" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteModal{{ kategori.id_kategori }}"
+                                                title="Hapus">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                        
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="deleteModal{{ kategori.id_kategori }}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header border-0">
+                                                        <h5 class="modal-title text-danger">
+                                                            <i class="bi bi-exclamation-triangle me-2"></i>Konfirmasi Hapus
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body text-start">
+                                                        <p>Apakah Anda yakin ingin menghapus kategori:</p>
+                                                        <p class="fw-bold text-primary">{{ kategori.nama_kategori }}</p>
+                                                        <small class="text-muted">Tindakan ini tidak dapat dibatalkan.</small>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        <a href="{{ url_for('delete_kategori', id=kategori.id_kategori) }}" class="btn btn-danger">
+                                                            <i class="bi bi-trash me-1"></i>Hapus
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">Menampilkan {{ kategori_list|length }} kategori</small>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox display-4 text-muted"></i>
+                        <p class="text-muted mt-3">Belum ada data kategori.</p>
+                        {% if current_user.is_admin %}
+                        <a href="{{ url_for('create_kategori') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Tambah Kategori Pertama
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-4 mt-5">
+        <div class="container text-center">
+            <strong>&copy; Next-Gen Tech - 2025</strong>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
