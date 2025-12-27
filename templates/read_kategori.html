@@ -108,7 +108,7 @@
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
-                                    <th width="5%">Id</th>
+                                    <th width="5%">ID</th>
                                     <th width="12%">Kode</th>
                                     <th width="18%">Nama Kategori</th>
                                     <th width="35%">Deskripsi</th>
@@ -121,7 +121,7 @@
                             <tbody>
                                 {% for kategori in kategori_list %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
+                                    <td><span class="badge bg-dark">{{ kategori.id_kategori }}</span></td>
                                     <td><span class="badge bg-secondary">{{ kategori.kode_kategori }}</span></td>
                                     <td class="fw-semibold">{{ kategori.nama_kategori }}</td>
                                     <td><small class="text-muted">{{ kategori.deskripsi }}</small></td>

@@ -46,11 +46,13 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle me-1"></i>{{ current_user }}
-                            <span class="badge bg-light text-primary ms-1">{{ current_role }}</span>
+                            <i class="bi bi-person-circle me-1"></i>{{ current_user.username }}
+                            <span class="badge bg-{% if current_user.is_admin %}warning text-dark{% else %}light text-dark{% endif %} ms-1">
+                                {{ current_user.role|capitalize }}
+                            </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><span class="dropdown-item-text text-muted small">Login sebagai {{ current_role }}</span></li>
+                            <li><span class="dropdown-item-text text-muted small">Login sebagai {{ current_user.role }}</span></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
