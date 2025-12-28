@@ -1,9 +1,3 @@
-"""
-==============================================
-Flask Application - Toko Sembako Murah Jaya
-==============================================
-"""
-
 import os
 import logging
 from flask import Flask, render_template, request, redirect, url_for, session, flash
@@ -13,16 +7,13 @@ from pymysql import err as pymysql_err
 
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
     pass
 
-# ============================================================
-# FLASK APPLICATION SETUP
-# ============================================================
+
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'toko_sembako_secret_key_2025_change_in_production')
@@ -30,9 +21,6 @@ app.config['SESSION_COOKIE_SECURE'] = os.getenv('FLASK_ENV') == 'production'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
-# ============================================================
-# DECORATOR
-# ============================================================
 
 def login_required(f):
     @wraps(f)
@@ -55,9 +43,7 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# ============================================================
-# CONTEXT PROCESSOR
-# ============================================================
+
 
 @app.context_processor
 def inject_user():
@@ -70,9 +56,6 @@ def inject_user():
         }
     }
 
-# ============================================================
-# ROUTE UTAMA
-# ============================================================
 
 @app.route('/')
 def index():
@@ -103,9 +86,7 @@ def dashboard():
         flash('Terjadi kesalahan saat memuat dashboard.', 'danger')
         return render_template('dashboard.html', stats={'total_produk': 0, 'total_kategori': 0, 'total_user': 0, 'total_stok': 0}, produk_terbaru=[])
 
-# ============================================================
-# AUTENTIKASI
-# ============================================================
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -144,7 +125,6 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    """Logout user dan hapus session"""
     username = session.get('username', 'User')
     session.clear()
     flash(f'Sampai jumpa, {username}! Anda telah berhasil logout.', 'success')
@@ -181,9 +161,6 @@ def register():
 
     return render_template('register.html')
 
-# ============================================================
-# CRUD KATEGORI
-# ============================================================
 
 @app.route('/kategori')
 @login_required
@@ -255,9 +232,7 @@ def delete_kategori(id):
         flash(f'Gagal menghapus kategori: {str(e)}', 'danger')
     return redirect(url_for('read_kategori'))
 
-# ============================================================
-# CRUD PRODUK
-# ============================================================
+
 
 @app.route('/produk')
 @login_required
@@ -335,9 +310,6 @@ def delete_produk(id):
         flash(f'Gagal menghapus produk: {str(e)}', 'danger')
     return redirect(url_for('read_produk'))
 
-# ============================================================
-# CRUD USER
-# ============================================================
 
 @app.route('/user')
 @admin_required
@@ -413,9 +385,6 @@ def delete_user(id):
 
     return redirect(url_for('read_user'))
 
-# ============================================================
-# ERROR HANDLERS
-# ============================================================
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -426,9 +395,7 @@ def internal_server_error(e):
     logger.exception('Unhandled server error')
     return render_template('index.html', error='Terjadi kesalahan server.'), 500
 
-# ============================================================
-# RUN APPLICATION
-# ============================================================
+
 
 if __name__ == '__main__':
     app.run(debug=True)

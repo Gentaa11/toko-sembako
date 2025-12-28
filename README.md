@@ -22,14 +22,6 @@
   <a href="#-deployment">Deployment</a>
 </p>
 
----
-
-### 📸 Screenshots
-
-| Landing Page | Dashboard | Data Produk |
-|:------------:|:---------:|:-----------:|
-| ![Landing](https://via.placeholder.com/250x150/0d6efd/white?text=Landing+Page) | ![Dashboard](https://via.placeholder.com/250x150/198754/white?text=Dashboard) | ![Produk](https://via.placeholder.com/250x150/6c757d/white?text=Data+Produk) |
-
 </div>
 
 ---
@@ -461,43 +453,6 @@ pip install -r requirements.txt
 
 ---
 
-## 🌐 Deployment
-
-### Opsi 1: PythonAnywhere (Gratis & Mudah)
-
-**Cocok untuk**: Demo, tugas kuliah, portfolio
-
-1. Daftar gratis di [pythonanywhere.com](https://www.pythonanywhere.com)
-2. Buka tab **"Files"** → Upload semua file proyek
-3. Buka tab **"Databases"** → Buat MySQL database → Import `toko_sembako.sql`
-4. Buka tab **"Web"** → Add new web app → Flask
-5. Set **Source code** ke folder proyek Anda
-6. Set **WSGI file** untuk mengarah ke `app.py`
-7. Reload web app
-
-**URL**: `https://username.pythonanywhere.com`
-
-### Opsi 2: Railway (Memerlukan GitHub)
-
-1. Push proyek ke GitHub
-2. Login ke [railway.app](https://railway.app) dengan GitHub
-3. New Project → Deploy from GitHub repo
-4. Add MySQL Plugin
-5. Set environment variables di Railway
-6. Deploy otomatis setiap push
-
-### Opsi 3: Local Network (Demo Lokal)
-
-```powershell
-# Jalankan agar bisa diakses dari jaringan lokal
-python -c "from app import app; app.run(host='0.0.0.0', port=5000, debug=False)"
-```
-
-Akses dari device lain: `http://[IP_KOMPUTER]:5000`
-
----
-
-## 🧪 Testing Manual
 
 ### Checklist Fungsionalitas
 

@@ -1,128 +1,45 @@
--- ================================================================
--- DATABASE: toko_sembako
--- SISTEM INFORMASI TOKO SEMBAKO MURAH JAYA
--- ================================================================
--- 
--- Deskripsi  : Database untuk sistem manajemen toko sembako
--- Versi      : 1.0.0
--- Tanggal    : Desember 2025
--- Author     : Next-Gen Tech
--- 
--- Tabel      : 
---   1. kategori - Kategori produk sembako
---   2. produk   - Data produk dengan relasi ke kategori
---   3. users    - Data pengguna dengan role admin/kasir
--- 
--- Relasi     : produk.kategori_id → kategori.id_kategori
---              ON DELETE CASCADE, ON UPDATE CASCADE
--- 
--- Cara Import:
---   Via phpMyAdmin : Import → Pilih file ini → Go
---   Via CLI        : mysql -u root -p < toko_sembako.sql
--- 
--- ================================================================
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 28, 2025 at 11:48 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
--- ================================================================
--- SETUP DATABASE
--- ================================================================
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- Hapus database jika ada (HATI-HATI di production!)
--- DROP DATABASE IF EXISTS toko_sembako;
 
--- Buat database
-CREATE DATABASE IF NOT EXISTS toko_sembako
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Gunakan database
-USE toko_sembako;
+--
+-- Database: `toko_sembako`
+--
 
--- ================================================================
--- TABEL: kategori
--- Menyimpan kategori/jenis produk sembako
--- ================================================================
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS produk;  -- Drop child table first (foreign key)
-DROP TABLE IF EXISTS kategori;
+--
+-- Table structure for table `kategori`
+--
 
-CREATE TABLE kategori (
-    id_kategori INT(11) NOT NULL AUTO_INCREMENT,
-    kode_kategori VARCHAR(50) NOT NULL,
-    nama_kategori VARCHAR(50) NOT NULL,
-    deskripsi TEXT NOT NULL,
-    lokasi_rak VARCHAR(25) NOT NULL,
-    
-    -- Constraints
-    PRIMARY KEY (id_kategori),
-    UNIQUE KEY uk_kode_kategori (kode_kategori),
-    
-    -- Index untuk pencarian
-    INDEX idx_nama_kategori (nama_kategori)
-    
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-  COMMENT='Tabel kategori produk sembako';
+CREATE TABLE `kategori` (
+  `id_kategori` int(11) NOT NULL,
+  `kode_kategori` varchar(50) NOT NULL,
+  `nama_kategori` varchar(50) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `lokasi_rak` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabel kategori produk sembako';
 
--- ================================================================
--- TABEL: produk
--- Menyimpan data produk dengan relasi ke kategori
--- ================================================================
+--
+-- Dumping data for table `kategori`
+--
 
-DROP TABLE IF EXISTS produk;
-
-CREATE TABLE produk (
-    id_produk INT(11) NOT NULL AUTO_INCREMENT,
-    kode_produk VARCHAR(20) NOT NULL,
-    nama VARCHAR(100) NOT NULL,
-    harga INT(11) NOT NULL,
-    stok INT(11) NOT NULL DEFAULT 0,
-    kategori_id INT(11) NOT NULL,
-    
-    -- Constraints
-    PRIMARY KEY (id_produk),
-    
-    -- Index untuk pencarian dan filter
-    INDEX idx_kode_produk (kode_produk),
-    INDEX idx_nama_produk (nama),
-    INDEX idx_kategori (kategori_id),
-    INDEX idx_stok (stok),
-    
-    -- Foreign Key dengan CASCADE
-    CONSTRAINT fk_produk_kategori 
-        FOREIGN KEY (kategori_id) REFERENCES kategori(id_kategori)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-        
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-  COMMENT='Tabel produk sembako';
-
--- ================================================================
--- TABEL: users
--- Menyimpan data pengguna sistem (admin/kasir)
--- ================================================================
-
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE users (
-    id_user INT(11) NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL,
-    role VARCHAR(25) NOT NULL DEFAULT 'kasir',
-    password VARCHAR(255) NOT NULL,
-    
-    -- Constraints
-    PRIMARY KEY (id_user),
-    UNIQUE KEY uk_username (username),
-    
-    -- Index untuk login
-    INDEX idx_role (role)
-    
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-  COMMENT='Tabel pengguna sistem';
-
--- ================================================================
--- DATA: kategori (35 records)
--- ================================================================
-
-INSERT INTO kategori (id_kategori, kode_kategori, nama_kategori, deskripsi, lokasi_rak) VALUES
+INSERT INTO `kategori` (`id_kategori`, `kode_kategori`, `nama_kategori`, `deskripsi`, `lokasi_rak`) VALUES
 (1, 'KAT-001', 'Beras', 'Berbagai jenis beras (premium, medium, merah)', 'Area Lantai 1'),
 (2, 'KAT-002', 'Minyak Goreng', 'Minyak goreng kelapa sawit kemasan bantal dan botol', 'Rak A1'),
 (3, 'KAT-003', 'Gula Pasir', 'Gula pasir putih, gula merah, dan gula batu', 'Rak A2'),
@@ -159,11 +76,26 @@ INSERT INTO kategori (id_kategori, kode_kategori, nama_kategori, deskripsi, loka
 (34, 'KAT-034', 'Tisu', 'Tisu wajah, tisu toilet, dan kapas', 'Rak G2'),
 (35, 'KAT-035', 'Gas & Galon', 'Gas LPG 3kg/12kg dan Galon air isi ulang', 'Gudang Belakang');
 
--- ================================================================
--- DATA: produk (35 records)
--- ================================================================
+-- --------------------------------------------------------
 
-INSERT INTO produk (id_produk, kode_produk, nama, harga, stok, kategori_id) VALUES
+--
+-- Table structure for table `produk`
+--
+
+CREATE TABLE `produk` (
+  `id_produk` int(11) NOT NULL,
+  `kode_produk` varchar(20) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `stok` int(11) NOT NULL DEFAULT 0,
+  `kategori_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabel produk sembako';
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`id_produk`, `kode_produk`, `nama`, `harga`, `stok`, `kategori_id`) VALUES
 (1, 'BRS-001', 'Beras Raja Lele (Karung 5kg)', 72000, 26, 1),
 (2, 'BRS-002', 'Beras Pandan Wangi (Karung 10kg)', 145000, 10, 1),
 (3, 'BRS-003', 'Beras IR 64 Premium (Eceran/Liter)', 13500, 48, 1),
@@ -200,13 +132,24 @@ INSERT INTO produk (id_produk, kode_produk, nama, harga, stok, kategori_id) VALU
 (34, 'DET-001', 'Rinso Anti Noda Deterjen Bubuk 770g', 26500, 20, 25),
 (35, 'DET-002', 'Daia Deterjen Bunga 850g', 18000, 26, 25);
 
--- ================================================================
--- DATA: users (35 records)
--- Password: "password123" untuk semua user
--- Hash menggunakan Werkzeug Scrypt
--- ================================================================
+-- --------------------------------------------------------
 
-INSERT INTO users (id_user, username, role, password) VALUES
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id_user` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `role` varchar(25) NOT NULL DEFAULT 'kasir',
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabel pengguna sistem';
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id_user`, `username`, `role`, `password`) VALUES
 (1, 'Genta', 'admin', 'scrypt:32768:8:1$SOEJsNHavRkXuCbp$3d349c8f9aa2fe479319ee12318a7dd5f88cdb943d8901f3bcbac01c06267397eca41922995eebd29034415c075df0c779dcb5704b1e037555e5d23cf962ec56'),
 (2, 'Budi Santoso', 'admin', 'scrypt:32768:8:1$1QU63XWH6zpeypL1$0505248a3b10b4051d7354cc4260a7371965a6691738b4009aaab062cd55066cfe8457a48fd200a53bf46bcc734cc23a5d260dad4a1083232874efc0e2592047'),
 (3, 'Siti Aminah', 'admin', 'scrypt:32768:8:1$W6AMb8XV7ttMLSKR$da8c1546cc32bca202e2abda5cafceac9aee9f68e29853778a3ac177690a3dd9032dd66dd6be2c10054c33991e28aeeedfe1a315b85cd005701528fe93fa421b'),
@@ -243,35 +186,69 @@ INSERT INTO users (id_user, username, role, password) VALUES
 (34, 'Hendra Kusuma', 'kasir', 'scrypt:32768:8:1$SOEJsNHavRkXuCbp$3d349c8f9aa2fe479319ee12318a7dd5f88cdb943d8901f3bcbac01c06267397eca41922995eebd29034415c075df0c779dcb5704b1e037555e5d23cf962ec56'),
 (35, 'Kartini Dewi', 'kasir', 'scrypt:32768:8:1$1QU63XWH6zpeypL1$0505248a3b10b4051d7354cc4260a7371965a6691738b4009aaab062cd55066cfe8457a48fd200a53bf46bcc734cc23a5d260dad4a1083232874efc0e2592047');
 
--- ================================================================
--- VERIFIKASI DATA
--- ================================================================
+--
+-- Indexes for dumped tables
+--
 
--- Tampilkan jumlah data per tabel
-SELECT 'kategori' AS tabel, COUNT(*) AS jumlah FROM kategori
-UNION ALL
-SELECT 'produk' AS tabel, COUNT(*) AS jumlah FROM produk
-UNION ALL
-SELECT 'users' AS tabel, COUNT(*) AS jumlah FROM users;
+--
+-- Indexes for table `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`),
+  ADD UNIQUE KEY `uk_kode_kategori` (`kode_kategori`),
+  ADD KEY `idx_nama_kategori` (`nama_kategori`);
 
--- ================================================================
--- CATATAN PENTING
--- ================================================================
--- 
--- 1. Password sudah di-hash menggunakan Werkzeug Scrypt
---    JANGAN mengubah nilai password secara manual
--- 
--- 2. Untuk menambah user baru, gunakan:
---    - Halaman /register di aplikasi, atau
---    - Python script dengan generate_password_hash()
--- 
--- 3. Relasi produk → kategori menggunakan CASCADE
---    Menghapus kategori akan menghapus semua produk terkait
--- 
--- 4. Backup database secara berkala:
---    mysqldump -u root -p toko_sembako > backup.sql
--- 
--- ================================================================
--- END OF FILE
--- ================================================================
+--
+-- Indexes for table `produk`
+--
+ALTER TABLE `produk`
+  ADD PRIMARY KEY (`id_produk`),
+  ADD KEY `idx_kode_produk` (`kode_produk`),
+  ADD KEY `idx_nama_produk` (`nama`),
+  ADD KEY `idx_kategori` (`kategori_id`),
+  ADD KEY `idx_stok` (`stok`);
 
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id_user`),
+  ADD UNIQUE KEY `uk_username` (`username`),
+  ADD KEY `idx_role` (`role`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `produk`
+--
+ALTER TABLE `produk`
+  MODIFY `id_produk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `produk`
+--
+ALTER TABLE `produk`
+  ADD CONSTRAINT `fk_produk_kategori` FOREIGN KEY (`kategori_id`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

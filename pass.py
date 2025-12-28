@@ -1,28 +1,11 @@
-"""
-==============================================
-Password Hash Generator
-Toko Sembako Murah Jaya
-==============================================
-
-Script utility untuk generate password hash.
-Berguna untuk membuat user default atau reset password.
-
-Penggunaan:
-    python pass.py
-
-==============================================
-"""
-
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def generate_hash(password: str) -> str:
-    """Generate hash dari password menggunakan Scrypt"""
     return generate_password_hash(password)
 
 
 def verify_password(password: str, hash_value: str) -> bool:
-    """Verifikasi password dengan hash"""
     return check_password_hash(hash_value, password)
 
 
@@ -78,7 +61,6 @@ def main():
             print("Generating default users...")
             print()
             
-            # Admin
             admin_pass = "admin123"
             admin_hash = generate_hash(admin_pass)
             print("👤 USER ADMIN")
@@ -90,7 +72,6 @@ def main():
             print(f"   INSERT INTO users (username, role, password) VALUES ('admin', 'admin', '{admin_hash}');")
             print()
             
-            # Kasir
             kasir_pass = "kasir123"
             kasir_hash = generate_hash(kasir_pass)
             print("👤 USER KASIR")

@@ -62,7 +62,6 @@
     <!-- Main Content -->
     <main class="py-4">
         <div class="container">
-            <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -75,7 +74,6 @@
                 {% endif %}
             {% endwith %}
 
-            <!-- Page Header -->
             <div class="mb-4">
                 <h4 class="mb-1"><i class="bi bi-person-plus me-2 text-primary"></i>Tambah User</h4>
                 <nav aria-label="breadcrumb">
@@ -87,7 +85,6 @@
                 </nav>
             </div>
 
-            <!-- Form Card -->
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm">
@@ -140,14 +137,12 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-primary text-white py-4 mt-5">
         <div class="container text-center">
             <strong>&copy; Next-Gen Tech - 2025</strong>
         </div>
     </footer>
 
-    <!-- Logout Confirmation Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

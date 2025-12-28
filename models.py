@@ -1,15 +1,9 @@
-"""
-==============================================
-Database Models - Toko Sembako Murah Jaya
-==============================================
-"""
 
 import os
 import pymysql
 import pymysql.err
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Load environment variables
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -18,13 +12,11 @@ except ImportError:
 
 
 class Database:
-    """Database connection manager dengan lazy connect + reconnect."""
 
     def __init__(self):
         self.connection = None
 
     def _connect(self):
-        """Buat koneksi baru atau reconnect jika terputus."""
         if self.connection:
             try:
                 self.connection.ping(reconnect=True)
@@ -49,7 +41,6 @@ class Database:
         )
 
     def execute(self, sql, params=None):
-        """Execute query untuk INSERT/UPDATE/DELETE, selalu tutup cursor."""
         cur = None
         try:
             self._connect()
@@ -79,7 +70,6 @@ class Database:
                     pass
 
     def fetchone(self, sql, params=None):
-        """Execute query dan ambil satu hasil."""
         cur = None
         try:
             self._connect()
@@ -107,7 +97,6 @@ class Database:
                     pass
 
     def fetchall(self, sql, params=None):
-        """Execute query dan ambil semua hasil."""
         cur = None
         try:
             self._connect()
@@ -135,7 +124,6 @@ class Database:
                     pass
 
     def close(self):
-        """Tutup koneksi database."""
         try:
             if self.connection:
                 self.connection.close()
@@ -145,12 +133,10 @@ class Database:
             self.connection = None
 
 
-# Global database instance (lazy)
 db = Database()
 
 
 class User:
-    """Model untuk operasi CRUD tabel users."""
 
     @staticmethod
     def create_user(username, password, role='kasir'):
@@ -193,7 +179,6 @@ class User:
 
 
 class Produk:
-    """Model untuk operasi CRUD tabel produk."""
 
     @staticmethod
     def create_produk(kode_produk, nama, harga, stok, kategori_id):
@@ -249,7 +234,6 @@ class Produk:
 
 
 class Kategori:
-    """Model untuk operasi CRUD tabel kategori."""
 
     @staticmethod
     def create_kategori(kode_kategori, nama_kategori, deskripsi, lokasi_rak):
