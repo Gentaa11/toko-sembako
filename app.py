@@ -131,7 +131,7 @@ def login():
             session['role'] = user['role']
             if remember:
                 session.permanent = True
-            flash(f'Selamat datang, {user["username"]}!', 'success')
+            flash(f'Log in berhasil, Selamat datang {user["username"]}!', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Username atau password salah!', 'danger')
@@ -145,7 +145,7 @@ def logout():
     username = session.get('username', 'User')
     session.clear()
     flash(f'Sampai jumpa, {username}! Anda telah berhasil logout.', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
