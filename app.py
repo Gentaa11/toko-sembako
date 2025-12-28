@@ -87,6 +87,9 @@ def dashboard():
         produk_list = Produk.get_all_produk()
         kategori_list = Kategori.get_all_kategori()
         user_list = User.get_all_users() if session.get('role') == 'admin' else []
+        
+        # Ambil 5 produk terbaru (ID terbesar = paling baru ditambahkan)
+        produk_terbaru = Produk.get_produk_terbaru(5)
 
         stats = {
             'total_produk': len(produk_list) if produk_list else 0,
@@ -94,7 +97,7 @@ def dashboard():
             'total_user': len(user_list) if user_list else 0,
             'total_stok': sum([p['stok'] for p in produk_list]) if produk_list else 0
         }
-        return render_template('dashboard.html', stats=stats, produk_terbaru=produk_list[:5] if produk_list else [])
+        return render_template('dashboard.html', stats=stats, produk_terbaru=produk_terbaru if produk_terbaru else [])
     except Exception as e:
         logger.exception('DB error saat mengambil data dashboard')
         flash('Terjadi kesalahan saat memuat dashboard.', 'danger')

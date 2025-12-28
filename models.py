@@ -220,6 +220,17 @@ class Produk:
         return db.fetchall(sql)
 
     @staticmethod
+    def get_produk_terbaru(limit=5):
+        """Ambil produk terbaru berdasarkan ID (terbesar = terbaru)."""
+        sql = """SELECT p.id_produk, p.kode_produk, p.nama, p.harga, p.stok, p.kategori_id,
+                        k.nama_kategori, k.lokasi_rak
+                 FROM produk p
+                 LEFT JOIN kategori k ON p.kategori_id = k.id_kategori
+                 ORDER BY p.id_produk DESC
+                 LIMIT %s"""
+        return db.fetchall(sql, (limit,))
+
+    @staticmethod
     def delete_produk(id_produk):
         sql = "DELETE FROM produk WHERE id_produk = %s"
         db.execute(sql, (id_produk,))
